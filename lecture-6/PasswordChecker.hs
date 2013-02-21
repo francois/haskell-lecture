@@ -2,10 +2,13 @@ module PasswordChecker (strong)
 where
 
 import Data.Char (isUpper, isLower, isDigit)
-import Data.List (all, any)
+import Data.List (any)
 
 strong :: [Char] -> Bool
-strong xs = all (== True) [lengthPred xs, uppercaseLetters xs, lowercaseLetters xs, digitLetters xs]
+strong xs = and $ map (\f -> f xs) predicates
+
+predicates :: [ [Char] -> Bool ]
+predicates = [ lengthPred, uppercaseLetters, lowercaseLetters, digitLetters ]
 
 lengthPred :: [Char] -> Bool
 lengthPred xs = (length xs) >= 15
